@@ -14,3 +14,5 @@
 * \models 网络模型
 * \node 节点分类任务
 * \link 链接预测任务
+* \community detection 社区发现
+* \network analysis 网络分析
