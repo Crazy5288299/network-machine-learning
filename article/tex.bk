@@ -1,0 +1,940 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stylish Article
+% LaTeX Template
+% Version 2.2 (2020-10-22)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Mathias Legrand (legrand.mathias@gmail.com) 
+% With extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[fleqn,10pt]{SelfArx} % Document font size and equations flushed left
+
+\usepackage[english]{babel} % Specify a different language here - english by default
+
+\usepackage{lipsum} % Required to insert dummy text. To be removed otherwise
+\usepackage{bm}
+%----------------------------------------------------------------------------------------
+%	COLUMNS
+%----------------------------------------------------------------------------------------
+
+\setlength{\columnsep}{0.55cm} % Distance between the two columns of text
+\setlength{\fboxrule}{0.75pt} % Width of the border around the abstract
+
+%----------------------------------------------------------------------------------------
+%	COLORS
+%----------------------------------------------------------------------------------------
+
+\definecolor{color1}{RGB}{0,0,90} % Color of the article title and sections
+\definecolor{color2}{RGB}{0,20,20} % Color of the boxes behind the abstract and headings
+
+%----------------------------------------------------------------------------------------
+%	HYPERLINKS
+%----------------------------------------------------------------------------------------
+
+\usepackage{hyperref} % Required for hyperlinks
+
+\hypersetup{
+	hidelinks,
+	colorlinks,
+	breaklinks=true,
+	urlcolor=color2,
+	citecolor=color1,
+	linkcolor=color1,
+	bookmarksopen=false,
+	pdftitle={Title},
+	pdfauthor={Author},
+}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\JournalInfo{Journal, Vol. XXI, No. 1, 1-5, 2013} % Journal information
+\Archive{Additional note} % Additional notes (e.g. copyright, DOI, review/research article)
+
+\PaperTitle{A Glance at Machine Learning on Graphs} % Article title
+
+\Authors{Lesi Chen, Junzhe Jiang, Miaopeng yu} % Authors
+
+
+\Keywords{Keyword1 --- Keyword2 --- Keyword3} % Keywords - if you don't want any simply remove all the text between the curly brackets
+\newcommand{\keywordname}{Keywords} % Defines the keywords heading name
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+\Abstract{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu libero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibulum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat. Integer sapien est, iaculis in, pretium quis, viverra ac, nunc. Praesent eget sem vel leo ultrices bibendum. Aenean faucibus. Morbi dolor nulla, malesuada eu, pulvinar at, mollis ac, nulla. Curabitur auctor semper nulla. Donec varius orci eget risus. Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam. Duis eget orci sit amet orci dignissim rutrum.}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Output the title and abstract box
+
+\tableofcontents % Output the contents section
+
+\thispagestyle{empty} % Removes page numbering from the first page
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\section*{Introduction} % The \section*{} command stops section numbering
+
+\addcontentsline{toc}{section}{Introduction} % Adds this section to the table of contents
+
+
+
+\section{Network analysis}
+\label{section2}
+
+\section{Community detection}
+\label{section3}
+
+
+\section{Node classification}
+\label{section4}
+
+
+\subsection{Label propagation}
+
+Let $(x_{1}, y_{1}) \dots (x_{l}, y_{l})$ be labeled data, $(x_{l+1}, y_{l+1}) \dots (x_{l+u}, y_{l+u})$ be unlabeled data, where $Y_{L} = \{y_{1} \dots
+y_{l}\}$ are the class labels. And we assume the number of classes C is known.
+
+
+
+The probabilistic transition matrix $\textbf{T}$, $T_{ij}$ is the probability to jump from node $j$ to $i$: 
+\begin{equation}
+	T_{ij} = P(j\rightarrow i) = \frac{w_{ij}}{\sum_{k=1}^{l+u} w_{kj}}
+\end{equation}  
+where the weight matrix $w_{ij} = \exp \left(-\frac{d_{ij}^{2}}{\sigma^{2}}\right)$ . Then, we propagate $Y \leftarrow TY$ until $Y$ converges.
+
+
+
+\paragraph{Drawbacks}
+The outcome will be unstable. If the label weights for neighborhood nodes 
+are equal, it will randomly choose one of them, which will amplify the previous 
+wrong prediction and cannot reach a proper outcome. In addition, a different 
+update sequence may lead to a different classification. One example is shown
+in Figure 1.
+
+
+
+
+
+
+
+
+
+
+\subsection{Node2Vec}
+Node2Vec is a node embedding algorithm that computes a vector representation 
+of a node based on random walks in the graph. The neighborhood is sampled 
+through random walks. Using a number of random neighborhood samples, the 
+algorithm trains a single hidden layer neural network. The neural network 
+is trained to predict the likelihood that a node will occur in a walk based 
+on the occurrence of another node.
+
+\paragraph{Optimization problem}
+With assumption condition independence and symmetry in feature space, the objective function will be: 
+\begin{equation}
+	\max_{f} \sum_{u\in V}\left[-\log Z_{u} + \sum_{n_{i} \in N_{S}(u)} f(n_{i}) \cdot f(u)\right].
+\end{equation}  
+
+
+
+\paragraph{Class search strategies}
+Node2Vec merges the advantages of BFS and DFS, the use of BFS is 
+helpful to learn the structure of the network, and the use of DFS 
+is helpful to discover homophilous communiies. And Node2Vec uses 
+the return parameter $p$ and in-out parameter $q$ to control 
+the ratio between BFS and DFS.
+
+\paragraph{Drawbacks}
+Since the amount of sample is limited, the random walk of length 
+is also limited, Node2Vec may not represent the structure of 
+the network perfectly. If the distance between two communities 
+is super large, it is almost impossible to connect two similar 
+nodes via biased random walk. 
+
+
+
+
+
+
+
+
+\subsection{Graph neural networks}
+\subsubsection{Graph convolutional networks}
+Graph convolution networks(GCN) is a scalable approach for semi-supervised 
+learning on graph-structure data. And the convolutional 
+architecture is motivated by a localized first-order approximation 
+of spectral graph convolution, and the model scales only linearly 
+in the number of graph edges and learns hidden layer representation. 
+
+And the reasons why we choose GCN as our basic model are:
+
+$\bullet$ GCN has a rigorous theoretical derivation.
+
+$\bullet$ We are satisfied with the performance of GCN.
+
+$\bullet$ The model is totally implemented by us.
+
+
+\paragraph{Layer-wise propagation rule}
+\begin{equation}
+	H^{l+1} = \sigma (\widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^{(l)} W^{(l)})
+\end{equation}  
+Here, $\widetilde{A} = A + I_{N}$ is the adjacency matrix of the 
+undirected graph $\mathcal{G}$ with added self-connections. 
+$\widetilde{D}_{ii} = \sum_{j} \widetilde{A}_{ij}$ and $W^{l}$ is 
+a layer-specific trainable weight matrix. $\sigma(\cdot)$ denotes 
+an activation function. $H^{l} \in \mathbb{R}^{N\times D}$ is the 
+matrix of activations in the $l^{th}$ layer; $H^{(0)} = X$.
+
+\paragraph{Cross-entropy error}
+For semi-supervised multi-class classification, we evaluate the 
+cross-entropy error over all labeled examples: 
+\begin{equation}
+	\mathcal{L} = -\sum_{l\in \mathcal{Y}_{L}} \sum^{F}_{f=1} Y_{lf} \ln{Z_{lf}}
+\end{equation}  
+where $\mathcal{Y}_{L}$ is the set of node indices that have labels, $Z\in \mathbb{R}^{N\times F}$ 
+is the convolved signal matrix.
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{GraphSAGE}
+GraphSAGE is an inductive algorithm for computing node embeddings. 
+GraphSAGE is using node feature information to generate node 
+embeddings on unseen nodes or graphs. Instead of training individual 
+embeddings for each node, the algorithm learns a function that generates 
+embeddings by sampling and aggregating features from a node$'$s local 
+neighborhood.
+
+And since we are not satisfied with the performance when using the loss function 
+provided in this paper, we just use the provided aggregator architectures. So, we 
+are not going to introduce the loss function of this method.
+
+
+
+
+
+
+\paragraph{Aggregator architectures}
+In the paper, the author provided three candidate aggregator 
+functions: mean aggregator, LSTM aggregator, and pooling aggregator. 
+And different aggregator functions perform better in different 
+datasets.
+
+
+
+
+
+\subsubsection{Graph attention networks}
+Graph attention networks (GATs) leverages masked self-attentional 
+layers to address the shortcomings of prior methods based on graph 
+convolutions or their approximations. By stacking layers in which 
+nodes are able to attend over their neighborhoods’ features, it enables 
+(implicitly) specifying different weights to different nodes in a 
+neighborhood, without requiring any kind of costly matrix operation 
+or depending on knowing the graph structure upfront. 
+GAT models have outperformed across transductive and inductive 
+graph benchmarks.
+
+
+
+
+\paragraph{Calculation of GAT} 
+Same as other attention mechanisms, there are two steps to calculate GAT.
+
+First, we need to calculate the attention coefficient $\alpha_{ij}$:
+\begin{equation}
+	\alpha_{ij} = \frac{\exp(LeakyReLU(\textbf{a}^{\top}[\textbf{Wh}_{i} \Vert \textbf{Wh}_{j}]))}{\sum_{k\in \mathcal{N}_{i}}\exp(LeakyReLU(\textbf{a}^{\top}[\textbf{Wh}_{i} \Vert \textbf{Wh}_{k}]))}
+\end{equation}  
+where $F$ is the number of features in each node, $\textbf{W}\in \mathbb{R}^{F' \times F}$ is the weight matrix, 
+$\textbf{a}\in \mathbb{R}^{2F'}$ is weight vector, $\textbf{h}$ is node 
+feature, and $\|$ is the concatenation operation, $\mathcal{N}_{i}$ is some
+neighborhood of node $i$ in the graph.
+
+Second, we need to aggregate the $\alpha$, to get the $\textbf{h}'$:
+\begin{equation}
+	h_{i}'(K) = \|_{k=1}^{K} \sigma \left(\sum_{j \in \mathcal{N}_{i}} \alpha_{ij}^{k} \textbf{W}^{k} h_{j} \right)
+\end{equation}  
+where $K$ is the number of independent attention mechanisms. And for the last layer, 
+we use averaging instead of concatenation, since it is not sensible on 
+the prediction layer:
+\begin{equation}
+	h_{i}'(K) = \sigma \left(\frac{1}{K} \sum_{k=1}^{K} \sum_{j \in \mathcal{N}_{i}} \alpha_{ij}^{k} \textbf{W}^{k} h_{j} \right)
+\end{equation}
+
+
+
+
+
+
+\subsection{Results of node classification}
+The results of these methods are shown in Table 1.
+
+
+\begin{table}
+	\caption{Node classification results with dataset Cora}
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Method &    Discription & Accuracy (\%) \\
+		\midrule
+		LPA&      & 71.30  \\
+		Node2Vec    & With SVM  & 75.20\\
+		GCN    & & 81.10 \\
+		GraphSAGE& & 79.60 \\
+		GAT & & 81.19 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+
+\subsection{Further improvement for node classification}
+In this section, we use two methods to improve the outcome of 
+node classification. In the first part of this section, we try 
+to use better optimizers, like sharpness-aware minimization(SAM) and 
+Kronecker-factored approximate curvature(KFAC) and have an outstanding 
+improvement. In the second part of this section, we try to use better 
+models: combine label propagation and simple models, and a apply 
+deeper neural network, also improve the outcome a lot.
+
+
+\subsection{With better optimizer}
+\subsubsection{Sharpness-aware minimization}
+Optimizing only training loss value as is commonly done, can easily 
+lead to suboptimal model quality. And the procedure Sharpness-Aware 
+Minimization (SAM), motivated by prior work connecting geometry of 
+the loss landscape and generalization, an effective procedure 
+simultaneously minimizing loss value and loss sharpness, and this 
+formulation results in a min-max optimization problem on which gradient 
+descent can be performed efficiently. And improved the models' performance 
+a lot.
+
+\paragraph{Sharpness term}
+For any $\rho > 0$, with high propability over training set $\mathcal{S}$ 
+generated from distribution $\mathcal{D}$,
+\begin{equation}
+	L_{\mathcal{D}}(w) \leq \max_{\|\epsilon \|_{2} \leq \rho} L_{\mathcal{S}}(w + \epsilon) + h(\|w\|_{2}^{2}/ \rho^{2})
+\end{equation}
+where $h: \mathbb{R}_{+}\rightarrow \mathbb{R}_{+}$ is a strictly increasing function (under some technical conditions on $L_{\mathcal{D}}(w)$).
+
+\paragraph{SAM problem}
+Inspired by the terms from the bound, the author proposed to select parameter values by 
+solving the following SAM problem:
+\begin{equation}
+	\min_{w} L_{\mathcal{S}}^{SAM}(w) + \lambda \|w\|_{2}^{2}  
+\end{equation}
+where $L_{\mathcal{S}}^{SAM}(w) = \max_{\|\epsilon\|_{p} \leq \rho} L_{\mathcal{S}}(w+\epsilon)$, 
+$\rho \geq 0$ is a hyperparameter and $p \in [1, \infty]$
+
+Then, we can use SGD with approximate $\nabla_{w} L_{\mathcal{S}}^{SAM}(w) \approx \nabla_{w} L_{\mathcal{S}}(w)|_{w+\hat{\epsilon}(w)} $ to minimize this problem.
+
+
+
+
+
+
+
+
+\subsubsection{Kronecker-factored approximate curvature}
+Kronecker-factored approximate curvature (K-FAC) is a second-order optimization method 
+based on natural gradient descent, and it effectively approximates the Fisher information 
+matrix. It is derived by approximating various large blocks of the Fisher, 
+which corresponding to entire layers, as is the Kronecker product of two much 
+smaller matrices. And have some improvement on node classification.
+
+\paragraph{Stage 1}
+The rows and columns of Fisher are divided into groups, each of which corresponds to 
+all the weights in a given layer, and this gives rise to a block-partitioning of the 
+matrix. These blocks are then approximated as Kronecker products between much smaller 
+matrices. And the approximation of the Fisher information matrix is given by:
+\begin{equation}
+	\widetilde{F} = 
+	\begin{bmatrix}
+		\overline{A}_{0, 0}\otimes G_{1, 1} &\overline{A}_{0,1}\otimes G_{1,2} &\cdots &\overline{A}_{0, l-1} \otimes G_{1, l} \\ 
+		\overline{A}_{1, 0}\otimes G_{2, 1} &\overline{A}_{1,1}\otimes G_{2,2} &\cdots &\overline{A}_{1, l-1} \otimes G_{2, l} \\ 
+		\vdots &\vdots &\ddots  &\vdots  \\
+		\overline{A}_{l-1, 0}\otimes G_{l, 1} &\overline{A}_{l-1,1}\otimes G_{l,2} &\cdots &\overline{A}_{l-1, l-1} \otimes G_{l, l} \\
+	\end{bmatrix} 
+\end{equation}
+where $\overline{A}_{i,j} = E[\overline{a}_{i} \overline{a}_{j}^{\top}]$, $G_{i,j} = E[g_{i} g_{j}^{\top}]$,
+$a_{i}$ is the vector of unit outputs, $s_{i}$ is the vector of the weighted sums for the $i$-th layer, 
+$g_{i} = -\frac{d\log p(y|x, \theta))}{dv}\cdot s_{i}$.
+
+And this approximation has the form of what is known as a Khatri-Rao product in multivariate statistics.
+
+\paragraph{Stage 2}
+This matrix is further approximated as having an inverse which is either block-diagonal 
+or block-tridiagonal. However, this justification does not apply to the Fisher itself.  
+While the inverse Fisher does indeed possess this structure (approximately), 
+the Fisher itself does not.
+
+Approximating $\widetilde{F}^{-1}$ as block-diagonal:
+\begin{equation}
+	\breve{F}^{-1} = diag \left(\overline{A}_{0, 0}^{-1} \otimes G_{1,1}^{-1}, \overline{A}_{1, 1}^{-1} \otimes G_{2,2}^{-1}, \ldots ,\overline{A}_{l-1, l-1}^{-1} \otimes G_{l,l}^{-1}  \right)
+\end{equation}
+
+Approximating $\widetilde{F}^{-1}$ as block-tridiagonal:
+\begin{equation}
+	\hat{F}^{-1} = \Xi^{\top} \Lambda \Xi 
+\end{equation}
+
+where 
+
+$\Psi_{i-1,i}^{\overline{A}} = \overline{A}_{i-1,i} \overline{A}_{i,i}^{-1}$ , $\Psi_{i,i+1}^{G} = G_{i,i+1} G_{i+1,i+1}^{-1} $, 
+
+$\Psi_{i,i+1} = \Psi_{i-1,i}^{\overline{A}} \otimes \Psi_{i,i+1}^{G} $, 
+
+$\Sigma_{i|i+1} = \overline{A}_{i-1, i-1} \otimes G_{i,i} - \Psi_{i-1,i}^{\overline{A}} \overline{A}_{i,i} \Psi_{i-1,i}^{\overline{A} \top} \otimes \Psi_{i,i+1}^{G} G_{i+1, i+1} \Psi_{i,i+1}^{G \top} $.
+
+$\Lambda = diag \left(\Sigma_{1|2}^{-1}, \Sigma_{2|3}^{-1} ,\ldots ,\Sigma_{l-1|l}^{-1}, \Sigma_{l}^{-1}  \right) $ 
+
+and 
+\begin{equation*}
+	\Xi = 
+	\left (
+	\begin{matrix} 
+		I & -\Psi_{1,2} & & & \\
+		& I & -\Psi_{2,3} & & \\
+		& & I & \ddots  & \\
+		& & & \ddots & -\Psi_{l-1,l} \\
+		& & & & I
+	\end{matrix} 	\right )
+\end{equation*}
+
+
+
+
+\paragraph{Some issues when using K-FAC}
+At first, we tried to use K-FAC as it suggested, adding the results of testing in the testing set after each epoch. And the accuracy can go up to over 90\%.
+
+However, we found it can be seen as a way of treating since it is not feasible to check the test set before you reach a final result. After discussing whether it is feasible to add the results of testing in the testing set after each epoch, we reached a conclusion that it is not feasible. So, we finally use this model without the testing set in training and have a 0.5\% promotion in training rather than over 
+10\% as others did.
+
+
+
+
+\begin{table*}
+	\caption{Node classification with better optimizers}
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		Original method & Accuracy (\%) & Optimizer & Accuracy (\%) & Improvement (\%)\\
+		\midrule
+		GCN    & 81.1 & SAM & 82.1 & 1.0\\
+		&      & K-FAC & 81.7 & 0.6\\
+		GAT    & 81.9 & SAM & 82.3 &0.4\\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+
+
+
+
+
+
+
+
+
+
+\subsection{With better model}
+
+\subsubsection{Apply deeper neural network}
+\paragraph{DropEdge}
+According to the over-smoothing effect, deepen the GNN endlessly may not be a wise 
+choice. In the meanwhile, six degrees of separation also points out that we do not 
+need GNN with so many layers.
+
+Since deep GCN has the issue of over-fitting and over-smoothing, DropEdge has 
+come up, which drops some edges randomly while training. And it is proved can reduce 
+the issue of over-fitting and over-smoothing, significantly improve the performance 
+of GCN.
+
+\paragraph{Jump Knowledge Network (JKnet)}
+Like common GCN, each layer will be affected by the former layer. But in the last 
+layer, each node will combine the output in each layer. And there are 3 methods to 
+merge these nodes: concatenation, max-pooling, and LSTM-attention.
+
+The use of Jump Knowledge, DropOut, and DropEdge can supplement each other, and using 
+Jump Knowledge and DropEdge can make the DropOut rate up to 0.9.
+
+
+
+
+\begin{table*}
+	\caption{Node classification with DropEdge and JKnet}
+	\centering
+	\begin{tabular}{lllll}
+		\toprule
+		Original method & Accuracy (\%) & Operation & Accuracy (\%) & Improvement (\%)\\
+		\midrule
+		GCN2    & 81.1 & DropEdge & 82.4 & 1.3\\
+		GAT4    & 62.5 & DropEdge & 69.5 & 7.0\\
+		&      & JKnet + DropEdge & 82.9 & 20.4\\
+		GCN8    & 56.4 & DropEdge & 65.2 & 8.8\\
+		&      & JKnet + DropEdge & 82.8 & 26.4\\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Correct and smooth}
+Correct and Smooth (C\&S) is a graph representation learning method based on 
+iteration. GNNs are the predominant technique for learning over graphs, however, 
+the reason it performs well is relatively little understood. So it is also 
+hard to accelerate in a large dataset. 
+
+C\&S first uses "error correlation" to correct errors by spread residual errors 
+in training data to test data. And then uses "prediction correlation" 
+to smooths the predictions on the test data.
+
+
+
+
+\paragraph{Correcting}
+The residuals in rows of $E$ corresponding to training nodes are zero only when 
+the base predictor makes a perfect prediction:
+\begin{equation}
+	\hat{E} = \arg \min_{W \in \mathbb{R}^{n\times c}} trace \left(W^{\top} (I-S)W\right) + \mu \|W-E\|_{F}^{2}
+\end{equation}
+and the solution can be obtained via iteration:
+\begin{equation}
+	E^{(t+1)} = (1-\alpha)E + \alpha SE^{(t)}  
+\end{equation}
+where $\alpha = 1/(1+\mu)$ and $E^{(0)} = E$, which converges rapidly to $\hat{E}$.
+
+However, the propagation cannot completely correct the errors on all nodes in the 
+graph, as it does not have enough "total mass", and adjusting the scale of the 
+residual can help substantially in practice. So we can use autoscale and scaled 
+fixed diffusion (FDiff-scale) to scale the residual.
+
+
+
+\paragraph{Smoothing}
+The motivation of smoothing is that adjacent nodes in the graph are likely to 
+have similar labels, which is expected given the homophily or assortative properties 
+of a network. Thus, we can encourage smoothness over the distribution over 
+labels by another label propagation. 
+
+And we iterate 
+$G^{(t+1)} = (1-\alpha)G + \alpha SG^{(t)}$ with $G^{(0)} = G$ until converge to 
+give the final prediction $\hat{Y}$, where $G$ is out best guess of the model, and 
+$G_{L_{t}} = Y_{l_{t}}$, $G_{L_{v}, U} = Z_{L_{v}, U}^{(r)}$. $Y$ is the label matrix, 
+and Z is the base predictor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{table*}
+	\caption{Node classification results with better optimizers and models on dataset Cora}
+	\centering
+	\begin{tabular}{llllll}
+		\toprule
+		\multicolumn{2}{c}{Original method}  &    \multicolumn{2}{c}{With better optimizer} & \multicolumn{2}{c}{With better model (and optimizers)}\\
+		\cmidrule(r){1-2}
+		\cmidrule(r){3-4}
+		\cmidrule(r){5-6}
+		Method     & Accuracy (\%)   & Optimizer & Accuracy (\%) & Additional model & Accuracy (\%) \\
+		\midrule
+		MLP & 51.80  & & & C\&S &  72.90 \\
+		GCN & 81.10  & SAM   &  82.10 & C\&S & 83.00\\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+
+
+
+
+\section{Related work of node classification}
+\paragraph{Go deeper --- Graph convolutional network via initial residual and identity mapping}
+\
+
+Despite the success of GCNs, most GCN models are shallow due to the over-smoothing problem. 
+So several professors including our teacher professor Zengfeng Huang has proposed graph convolutional network via initial residual and 
+identity mapping (GCNII), an extension of the vanilla GCN model with two 
+simple yet effective techniques: Initial residual and Identity mapping. And these two techniques 
+effectively relieve the problem of over-smoothing and improve the performance of GCNII consistently 
+as we increase its network depth.
+
+\paragraph{GCNII model}
+Formally, the $l$-th layer of GCNII is defined as: 
+\begin{small}
+\begin{equation}
+	H^{(l+1)} = \sigma\left(\left((1 - \alpha_{l}) \widetilde{P} H^{(l)} + \alpha_{l} H^{(0)}  \right)  \left( (1 - \beta_{l}) I_{n} + \beta_{l} W^{(l)} \right)  \right)
+\end{equation}
+\end{small}
+where $\alpha_{l}$ and $\beta_{l}$ are two hyperparameters will be shown later, 
+$\alpha_{l}$ can be simply set to 0.1 or 0.2, $\beta_{l} = \log\left(\frac{\lambda}{l} + 1\right)$ in practice, 
+and $\widetilde{P} = \widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}}$ is 
+the graph convolution matrix with the renormalization trick.
+
+\paragraph{Initial residual connection}
+Instead of using a residual connection to carry the information from the previous 
+layer, they construct a connection to the initial representation $H^{(0)}$, which 
+ensures that the final representation of each node retains at least a fraction of 
+$\alpha_{l}$ from the input layer. If the feature dimension $d$ is large, we
+can apply a fully-connected neural network on $X$ to obtain a lower-dimensional 
+initial representation $H^{(0)}$ before the forward propagation.
+
+\paragraph{Identity mapping}
+Motivated by the idea of identity mapping from ResNet, an identity mapping $I_{n}$ 
+is added to the weight matrix $W^{(l)}$ at the $l$-th layer: 
+\begin{equation}
+	W^{(l)} = (1-\beta_{l}) I_{n} + \beta_{l} W^{(l)}
+\end{equation}
+And the principle of setting $\beta_{l}$ is to ensure the decay of the
+weight matrix adaptive increases as we stack more layers. 
+
+\paragraph{Result of GCNII}
+In the dataset Cora, with 64-layers, the classification accuracy of GCNII can reach 
+85.5, which is really high compared to traditional GCN. And it also outperformed 
+the work we have reproduced.
+
+
+
+
+
+\section{Link prediction}
+\label{section5}
+In this part, we base on embedding and transform the link prediction into a 
+binary classification problem, which given arbitrary two nodes, and judge if 
+there is an edge between these two nodes. 
+
+
+
+
+
+
+\subsection{Variational graph auto-encoder}
+Variational graph auto-encoder (VGAE) is a framework for unsupervised learning on graph 
+structure based on the Variational auto-encoder (VAE). This model makes use of latent 
+variables and is capable of learning interpretable latent representations
+for undirected graphs.
+
+\paragraph{Inference model}
+A simple inference model is parameterized by a two-layer GCN:
+\begin{equation}
+	q\left(\textbf{Z} | \textbf{X}, \textbf{A} \right) = \prod_{i=1}^{N} q\left(z_{i} | \textbf{X}, \textbf{A} \right) = \prod_{i=1}^{N} \mathcal{N} \left(z_{i} | \mu_{i}, diag\left(\sigma_{i}^{2}\right) \right) 
+\end{equation}
+where $\textbf{A}$ is adjacency matrix with diagonal elements 1, $\textbf{Z}$ is stochastic latent variables, $\bm{\mu} = GCN_{\bm{\mu}}\left(\textbf{X}, \textbf{A} \right)$ is the matrix of 
+mean vector $\mu_{i}$, $\log \bm{\sigma} = GCN_{\bm{\sigma}} \left(\textbf{X}, \textbf{A}\right)$, The two-layer GCN 
+is defined as $GCN\left(\textbf{X}, \textbf{A} \right) = \widetilde{\textbf{A}} ReLU \left( \widetilde{\textbf{A}} \textbf{XW}_{0} \right) \textbf{W}_{1} $, with weight 
+matrix $\textbf{W}_{i}$, $\widetilde{\textbf{A}} = \textbf{D}^{-\frac{1}{2}} \textbf{A} \textbf{D}^{-\frac{1}{2}}$ is the 
+symmetrically normalized adjacency matrix.
+
+
+
+
+\paragraph{Generative model}
+The generative model is given by inner product between latent variables:
+\begin{equation}
+	\begin{split}
+		p\left(\textbf{A} | \textbf{Z} \right) = \prod_{i=1}^{N} \prod_{j=1}^{N} p\left(A_{ij} | z_{i}, z_{j}\right), \\
+		\text{with} \qquad p\left(A_{ij} = 1 | z_{i}, z_{j}  \right) = \sigma\left(z_{i}^{\top} z_{j}\right)
+	\end{split}	
+\end{equation}
+
+where $A_{ij}$ are the elements of $\textbf{A}$ and $\sigma(\cdot)$ is the logistic sigmoid function.
+
+
+\paragraph{Learning}
+Then, optimize the Variational lower bound $\mathcal{L}$ w.r.t the variational parameters $W_{ij}$:
+\begin{equation}
+	\mathcal{L} = \mathbb{E}_{q\left(\textbf{Z} | \textbf{X}, \textbf{A} \right)} [\log p\left(\textbf{A} | \textbf{Z} \right)] - \text{KL}[q\left(\textbf{Z} | \textbf{X}, \textbf{A} \right) \parallel  p\left(\textbf{Z} \right)],
+\end{equation}
+where $\text{KL}[q(\cdot) \parallel p(\cdot)]$ is the Kullback-Leibler divergence between 
+$q(\cdot)$ and $p(\cdot)$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Graph auto-encoder}
+Graph auto-encoder is a non-probabilistic variant of the VGAE model, and we 
+calculate embedding $\textbf{Z}$ and the reconstructed adjacency matrix $\hat{\textbf{A}}$ 
+as follows:
+\begin{equation}
+	\hat{\textbf{A}} = \sigma\left(\textbf{ZZ}^{\top} \right), \qquad \text{with} \qquad \textbf{Z} = GCN\left(\textbf{X}, \textbf{A} \right)
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Further improvement for link prediction}
+\subsection{Sphere-VGAE (S-VGAE)}
+Since the posterior distributions are defined as a normal distribution, former VGAE has the issue of 
+KL-vanishing problem, or posterior collapse. And one of the methods to address this issue is to alter 
+the normal distribution by von Mises-Fisher distribution (vMF):
+\begin{equation}
+	f\left(x | \mu, \kappa  \right) = C_{d}(\kappa) \exp\left(\kappa \mu^{\top} x \right)
+\end{equation}
+\begin{equation}
+	C_{d}(\kappa) = \frac{\kappa^{d/2-1}}{(2\pi)^{d/2} I_{d/2-1}(\kappa)}
+\end{equation}
+where $I_{v}$ stands for the modified Bessel function of the 
+first kind at order $v$.
+
+And since KL divergence is:
+\begin{equation}
+	\begin{split}
+		\text{KL} \left(\text{vMF}(\mu, \kappa) \parallel \text{vMF}(\cdot, 0) \right) \\
+		= \kappa \frac{I_{d/2}(\kappa)}{I_{d/2-1}(\kappa)}
+		+\left(\frac{d}{2} - 1 \right) \log \kappa - 
+		\frac{d}{2} \log(2\pi) \\
+		- \log I_{d/2-1}(\kappa) 
+		+\frac{d}{2} \log(\pi) 
+		+ \log 2 - \log \Gamma \left(\frac{d}{2} \right)
+	\end{split}
+\end{equation}
+this only depends on fixed hyperparameter $\kappa$, and it increases 
+monotonically with $\kappa$, as does concentration measured by 
+cosine similarity.
+
+So, we can control the hyperparameter $\kappa$ to make the KL 
+divergence has a positive lower bound.
+
+
+
+
+
+
+
+
+\subsection{Adversarial Regulated VGAE}
+Graph embedding is an effective method to represent graph data in a low-dimensional space for graph analytics. Most existing embedding algorithms typically focus on preserving the topological structure or minimizing the reconstruction errors of graph data, but they have mostly ignored the data
+distribution of the latent codes from the graphs, which often results in inferior embedding in real-world graph data.
+Adversarial Regulated VGAE (ARGA) is an adversarial graph embedding framework for graph data that make use 
+of the distribution of nodes, and introduce GAN and AAE into GNN.
+
+The workflow of ARGA consists of two modules: the graph autoencoder and 
+the adversarial network.
+
+\paragraph{Graph convolutional autoencoder}
+For the graph encoder, we need to minimize the
+reconstruction error of the graph data by:
+\begin{equation}
+	\mathcal{L}_{0} = \mathbb{E}_{q\left(\textbf{Z} | \left(\textbf{X}, \textbf{A} \right) \right)} 
+	[\log p (\hat{\textbf{A}} | \textbf{Z} )]
+\end{equation}
+For variational graph encoder, we optimize the variational
+lower bound as follows:
+\begin{equation}
+	\mathcal{L}_{1} = \mathbb{E}_{q\left(\textbf{Z} | \left(\textbf{X}, \textbf{A} \right) \right)} 
+	[\log p (\hat{\textbf{A}} | \textbf{Z} )] - \text{KL} [q(\textbf{Z} | \textbf{X}, \textbf{A}) \parallel p(\textbf{Z})]
+\end{equation}
+where $\hat{\textbf{A}} = \text{sigmoid}(\textbf{ZZ}^{\top})$, $\textbf{Z} = q(\textbf{Z} | \textbf{X}, \textbf{A})$
+
+
+\paragraph{Adversarial model}
+The equation for training the encoder model with Discriminator $\mathcal{D}(\textbf{Z})$ can be
+written as follows:
+\begin{equation}
+	\min_{\mathcal{G}} \max_{\mathcal{D}} \mathbb{E}_{\textbf{z} \sim  p_{z}} [\log \mathcal{D}(\textbf{Z})] + \mathbb{E}_{\textbf{x} \sim p(x)} [\log (1 - \mathcal{D}(\mathcal{G}(\textbf{X}, \textbf{A})) )]
+\end{equation}
+where $\mathcal{G}(\textbf{X}, \textbf{A})$ and $\mathcal{D}(\textbf{Z})$ indicate the generator and discriminator.
+
+
+
+\subsection{Results}
+The results of these methods are shown in Table 3.
+\begin{table}
+	\caption{Link prediction}
+	\centering
+	\begin{tabular}{lll}
+		\toprule
+		Method &    AUC & AP \\
+		\midrule
+		GAE&  91.14    & 91.28  \\
+		VGAE    & 90.56  & 91.56\\
+		ARGE    & 92.50 & 92.90 \\
+		S-VGAE& 92.88 & 93.1 \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Conclusion}
+We use visualization technology to show our community detection results and analysis 
+centralization and many other metrics of the network.
+
+After these, we use several models based on our fully implemented GCN model, and use many 
+optimization methods to improve the accuracy of node classification. And give a brief 
+introduction to a more state-of-the-art model GCNII proposed by many professors including 
+our teacher professor Zengfeng Huang.
+
+At last, we based on embedding and transform the link prediction into a binary classification 
+problem. And give four different GAEs to judge the existence of an edge.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\phantomsection
+\section*{References}
+\addcontentsline{toc}{section}{Acknowledgments} % Adds this section to the table of contents
+
+\small
+
+\setlength{\parindent}{0pt}
+
+[1] Xiaojin Zhu. \ \& Zoubin Ghahramani.\ (2002) Learning from Labeled and 
+Unlabeled Data with Label Propagation.\  Paper presented at the meeting.
+
+[2] Aditya Grover. \ \& Jure Leskovec.\ (2016) node2vec: Scalable Feature Learning 
+for Networks. In\ {\it Association for Computing Machinery}, pp.\ 855-864. New York, NY, USA.
+
+[3] Thomas N. Kipf. \ \& Max Welling.\ (2017) Semi-supervised Classification with Graph 
+Convolutional Networks. In\ {\it 5th International Conference on Learning Representations}.
+
+[4] William L. Hamilton. \ \& Rex Ying. \ \& Jure Leskovec.\ (2017) Inductive 
+Representation Learning on Large Graphs. In\ {\it 31st Conference on Neural Information Processing Systems}.
+Long Beach, CA, USA.
+
+[5] Petar Velickovic. \ \& Guillem Cucurull. \ \& Arantxa Casanova. \ \& Adriana Romero. \ \&
+Pietro Lio. \ \& Yoshua Bengio.\ (2018) Graph Attention Networks. In\ {\it 6th International Conference on Learning Representations}.
+
+[6] Pierre Foret. \ \& Ariel Kleiner. \ \& Hossein Mobahi. \ \& Behnam Neyshabur.\ 
+(2021) Sharpness-aware Minimization for Efficiently Improving Generalization. In\ {\it 9th International Conference on Learning Representations}.
+
+[7] James Martens. \ \& Roger Grosse.\ (2015) Optimizing Neural Networks with Kronecker-factored Approximate Curvature. In\ 
+{\it Paper presented at the meeting of the ICML}.
+
+[8] Qian Huang. \ \& Horace He. \ \& Abhay Singh. \ \& Ser-Nam Lim. \ \& Austin R. Benson.\ (2020) Combining Label 
+Propagation and Simple Models Out-performs Graph Neural Networks. In\ {\it CoRR abs/2010.13993 }
+
+[9] Yu Rong. \ \& Wenbing Huang. \ \& Tingyang Xu. \ \& Junzhou Huang.\ (2020) DropEdge: Towards Deep 
+Graph Convolutional Networks on Node Classification. In\ {\it 8th International Conference on Learning Representations}.
+
+[10] Keyulu Xu. \ \& Chengtao Li. \ \& Yonglong Tian. \ \& \ \& Tomohiro Sonobe. \ \& Ken-ichi Kawarabayashi. \ \& Stefanie Jegelka.\
+(2018) Representation learning on graphs with jumping knowledge networks. In\ {\it International Conference on Machine Learning}. PMLR, 2018: 5453-5462.
+
+[11] Thomas N. Kipf. \ \& Max Welling. \ (2016) Variational Graph Auto-Encoders. In\ {\it arXiv:1611.07308 [cs, stat]}.
+
+[12] Jiacheng Xu. \ \& Greg Durrett.\ (2018) Spherical latent spaces for stable variational autoencoders. In \ {\it CoRR} abs/1808.10805.
+
+[13] Tim R. Davidson. \ \& Luca Falorsi. \ \& Nicola De Cao. \ \& Thomas Kipf. \ \& Jakub M. Tomczak. \ (2018) Hyperspherical Variational Auto-Encoders.
+In \ {\it CoRR} abs/1804.00891.
+
+[14] Shirui Pan. \ \& Ruiqi Hu. \ \& Guodong Long. \ \& Jing Jiang. \ \& Lina Yao. \ \& Chengqi Zhang. \ (2019) 
+Adversarially Regularized Graph Autoencoder for Graph Embedding. In\ {\it arXiv:1802.04407 [cs, stat]}.
+
+[15] Ming Chen. \ \& Zhewei Wei. \ \& Zengfeng Huang. \ \& Bolin Ding. \ \& Yaliang Li. \ (2020) Simple and Deep Graph Convolutional Networks. 
+In \ {\it 37th International Conference on Machine Learning}.
+
+
+%----------------------------------------------------------------------------------------
+%	REFERENCE LIST
+%----------------------------------------------------------------------------------------
+
+\phantomsection
+\bibliographystyle{unsrt}
+\bibliography{sample.bib}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}

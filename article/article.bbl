@@ -1,0 +1,120 @@
+\begin{thebibliography}{10}
+
+\bibitem{rosvall2009map}
+Martin Rosvall, Daniel Axelsson, and Carl~T Bergstrom.
+\newblock The map equation.
+\newblock {\em The European Physical Journal Special Topics}, 178(1):13--23,
+  2009.
+
+\bibitem{blondel2008fast}
+Vincent~D Blondel, Jean-Loup Guillaume, Renaud Lambiotte, and Etienne Lefebvre.
+\newblock Fast unfolding of communities in large networks.
+\newblock {\em Journal of statistical mechanics: theory and experiment},
+  2008(10):P10008, 2008.
+
+\bibitem{zhuѓ2002learning}
+Xiaojin ZhuЃ and Zoubin GhahramaniЃн.
+\newblock Learning from labeled and unlabeled data with label propagation.
+\newblock 2002.
+
+\bibitem{grover2016node2vec}
+Aditya Grover and Jure Leskovec.
+\newblock node2vec: Scalable feature learning for networks.
+\newblock In {\em Proceedings of the 22nd ACM SIGKDD international conference
+  on Knowledge discovery and data mining}, pages 855--864, 2016.
+
+\bibitem{levy2014neural}
+Omer Levy and Yoav Goldberg.
+\newblock Neural word embedding as implicit matrix factorization.
+\newblock {\em Advances in neural information processing systems},
+  27:2177--2185, 2014.
+
+\bibitem{hamilton2017inductive}
+William~L Hamilton, Rex Ying, and Jure Leskovec.
+\newblock Inductive representation learning on large graphs.
+\newblock In {\em Proceedings of the 31st International Conference on Neural
+  Information Processing Systems}, pages 1025--1035, 2017.
+
+\bibitem{chen2020simple}
+Ming Chen, Zhewei Wei, Zengfeng Huang, Bolin Ding, and Yaliang Li.
+\newblock Simple and deep graph convolutional networks.
+\newblock In {\em International Conference on Machine Learning}, pages
+  1725--1735. PMLR, 2020.
+
+\bibitem{velivckovic2017graph}
+Petar Veli{\v{c}}kovi{\'c}, Guillem Cucurull, Arantxa Casanova, Adriana Romero,
+  Pietro Lio, and Yoshua Bengio.
+\newblock Graph attention networks.
+\newblock {\em arXiv preprint arXiv:1710.10903}, 2017.
+
+\bibitem{martens2015optimizing}
+James Martens and Roger Grosse.
+\newblock Optimizing neural networks with kronecker-factored approximate
+  curvature.
+\newblock In {\em International conference on machine learning}, pages
+  2408--2417. PMLR, 2015.
+
+\bibitem{foret2020sharpness}
+Pierre Foret, Ariel Kleiner, Hossein Mobahi, and Behnam Neyshabur.
+\newblock Sharpness-aware minimization for efficiently improving
+  generalization.
+\newblock {\em arXiv preprint arXiv:2010.01412}, 2020.
+
+\bibitem{huang2020combining}
+Qian Huang, Horace He, Abhay Singh, Ser-Nam Lim, and Austin~R Benson.
+\newblock Combining label propagation and simple models out-performs graph
+  neural networks.
+\newblock {\em arXiv preprint arXiv:2010.13993}, 2020.
+
+\bibitem{rong2019dropedge}
+Yu~Rong, Wenbing Huang, Tingyang Xu, and Junzhou Huang.
+\newblock Dropedge: Towards deep graph convolutional networks on node
+  classification.
+\newblock {\em arXiv preprint arXiv:1907.10903}, 2019.
+
+\bibitem{xu2018representation}
+Keyulu Xu, Chengtao Li, Yonglong Tian, Tomohiro Sonobe, Ken-ichi Kawarabayashi,
+  and Stefanie Jegelka.
+\newblock Representation learning on graphs with jumping knowledge networks.
+\newblock In {\em International Conference on Machine Learning}, pages
+  5453--5462. PMLR, 2018.
+
+\bibitem{oono2019asymptotic}
+Kenta Oono and Taiji Suzuki.
+\newblock On asymptotic behaviors of graph cnns from dynamical systems
+  perspective.
+\newblock 2019.
+
+\bibitem{huang2017densely}
+Gao Huang, Zhuang Liu, Laurens Van Der~Maaten, and Kilian~Q Weinberger.
+\newblock Densely connected convolutional networks.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 4700--4708, 2017.
+
+\bibitem{kipf2016variational}
+Thomas~N Kipf and Max Welling.
+\newblock Variational graph auto-encoders.
+\newblock {\em arXiv preprint arXiv:1611.07308}, 2016.
+
+\bibitem{bowman2015generating}
+Samuel~R Bowman, Luke Vilnis, Oriol Vinyals, Andrew~M Dai, Rafal Jozefowicz,
+  and Samy Bengio.
+\newblock Generating sentences from a continuous space.
+\newblock {\em arXiv preprint arXiv:1511.06349}, 2015.
+
+\bibitem{davidson2018hyperspherical}
+Tim~R Davidson, Luca Falorsi, Nicola De~Cao, Thomas Kipf, and Jakub~M Tomczak.
+\newblock Hyperspherical variational auto-encoders.
+\newblock {\em arXiv preprint arXiv:1804.00891}, 2018.
+
+\bibitem{xu2018spherical}
+Jiacheng Xu and Greg Durrett.
+\newblock Spherical latent spaces for stable variational autoencoders.
+\newblock {\em arXiv preprint arXiv:1808.10805}, 2018.
+
+\bibitem{pan2018adversarially}
+Shirui Pan, Ruiqi Hu, Guodong Long, Jing Jiang, Lina Yao, and Chengqi Zhang.
+\newblock Adversarially regularized graph autoencoder for graph embedding.
+\newblock {\em arXiv preprint arXiv:1802.04407}, 2018.
+
+\end{thebibliography}
