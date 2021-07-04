@@ -17,3 +17,4 @@
 * \community detection 社区发现
 * \network analysis 网络分析
 * \article 报告 tex与pdf文件
+* \presentation 演讲pptx
