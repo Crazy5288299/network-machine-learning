@@ -18,3 +18,4 @@
 * \network analysis 网络分析
 * \article 报告 tex与pdf文件
 * \presentation 演讲pptx
+* \notes 学习过程中的一些笔记整理
